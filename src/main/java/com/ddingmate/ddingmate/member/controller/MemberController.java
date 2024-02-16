@@ -7,6 +7,8 @@ import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/member")
@@ -33,6 +35,11 @@ public class MemberController {
 //        Member member = memberService.retrieveMember(id);
 //        MemberResponse memberResponse = MemberResponse.from(member);
         return ApiResponse.ok(memberService.retrieveMember(id));
+    }
+
+    @GetMapping
+    public ApiResponse<List> retrieveAll() {
+        return ApiResponse.ok(memberService.retrieveAll());
     }
 
     @PatchMapping("/password/{userId}")

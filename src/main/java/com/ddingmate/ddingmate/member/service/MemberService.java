@@ -9,6 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -34,6 +37,13 @@ public class MemberService {
 
     public Member findMemberById(Long id) {
         return memberRepository.findById(id).get();
+    }
+
+    @Transactional(readOnly = true)
+    public List<MemberResponse> retrieveAll() {
+        return memberRepository.findAll().stream()
+                .map(MemberResponse::from)
+                .collect(Collectors.toList());
     }
 
     @Transactional
