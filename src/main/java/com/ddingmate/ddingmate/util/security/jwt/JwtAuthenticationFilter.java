@@ -1,5 +1,7 @@
 package com.ddingmate.ddingmate.util.security.jwt;
 
+import com.ddingmate.ddingmate.member.domain.Member;
+import com.ddingmate.ddingmate.member.service.MemberService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,6 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .map(tokenProvider::validateTokenAndGetSubject)
                 .orElse("anonymous:anonymous")
                 .split(":");
+
         return new User(split[0], "", List.of(new SimpleGrantedAuthority(split[1])));
     }
 

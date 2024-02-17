@@ -5,6 +5,7 @@ import com.ddingmate.ddingmate.member.dto.request.MemberUpdateRequest;
 import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.member.state.Role;
 import com.ddingmate.ddingmate.member.util.MajorConverter;
+import com.ddingmate.ddingmate.member.util.RoleConverter;
 import com.ddingmate.ddingmate.post.state.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -34,6 +35,7 @@ public class Member {
     private LocalDate birth;
     private String introduction;
     private Category category;
+    @Convert(converter = RoleConverter.class)
     private Role role;
 
     @Builder

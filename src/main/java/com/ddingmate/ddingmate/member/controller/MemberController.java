@@ -17,36 +17,38 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PatchMapping("/{userId}")
-    public ApiResponse<Void> updateMember(@PathVariable("userId") Long id,
+//    @GetMapping()
+//    public ApiResponse<MemberResponse> getCurrentMember(@AuthenticationPrincipal User user) {
+//        return ApiResponse.ok(memberService.getCurrentMember(user.getUsername()));
+//    }
+
+    @PatchMapping()
+    public ApiResponse<Void> updateMember(@AuthenticationPrincipal User user,
                                           @RequestBody MemberUpdateRequest memberUpdateRequest) {
-        memberService.updateMember(id, memberUpdateRequest);
+        memberService.updateMember(user.getUsername(), memberUpdateRequest);
         return ApiResponse.ok();
     }
 
-    @DeleteMapping("/{id}")
-    public ApiResponse<Void> deleteMember(@PathVariable Long id) {
-        memberService.deleteMember(id);
+    @DeleteMapping()
+    public ApiResponse<Void> deleteMember(@AuthenticationPrincipal User user) {
+        memberService.deleteMember(user.getUsername());
         return ApiResponse.ok();
     }
 
-    @GetMapping("{id}")
-    public ApiResponse<MemberResponse> retrieveMember(@PathVariable Long id) {
-//        Member member = memberService.retrieveMember(id);
-//        MemberResponse memberResponse = MemberResponse.from(member);
-        return ApiResponse.ok(memberService.retrieveMember(id));
+    @GetMapping()
+    public ApiResponse<MemberResponse> retrieveMember(@AuthenticationPrincipal User user) {
+        return ApiResponse.ok(memberService.retrieveMember(user.getUsername()));
+    }
+
+    @PatchMapping("/password")
+    public ApiResponse<Void> updateMemberPassword(@AuthenticationPrincipal User user,
+                                                  @RequestBody MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
+        memberService.updateMemberPassword(user.getUsername(), memberPasswordUpdateRequest);
+        return ApiResponse.ok();
     }
 
     @GetMapping
     public ApiResponse<List> retrieveAll() {
         return ApiResponse.ok(memberService.retrieveAll());
     }
-
-    @PatchMapping("/password/{userId}")
-    public ApiResponse<Void> updateMemberPassword(@PathVariable("userId") Long id,
-                                                  @RequestBody MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
-        memberService.updateMemberPassword(id, memberPasswordUpdateRequest);
-        return ApiResponse.ok();
-    }
-
 }
