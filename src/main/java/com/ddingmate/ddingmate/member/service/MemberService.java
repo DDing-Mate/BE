@@ -37,15 +37,17 @@ public class MemberService {
         return MemberResponse.from(findMemberById(convertId(username)));
     }
 
-    public Member findMemberById(Long id) {
-        return memberRepository.findById(id).get();
-    }
 
     @Transactional(readOnly = true)
     public List<MemberResponse> retrieveAll() {
         return memberRepository.findAll().stream()
                 .map(MemberResponse::from)
                 .collect(Collectors.toList());
+    }
+
+
+    public Member findMemberById(Long id) {
+        return memberRepository.findById(id).get();
     }
 
     @Transactional

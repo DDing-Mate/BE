@@ -5,6 +5,8 @@ import com.ddingmate.ddingmate.member.dto.response.MemberResponse;
 import com.ddingmate.ddingmate.member.service.MemberService;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +42,11 @@ public class MemberController {
         return ApiResponse.ok(memberService.retrieveMember(user.getUsername()));
     }
 
+    @GetMapping
+    public ApiResponse<List> retrieveAll() {
+        return ApiResponse.ok(memberService.retrieveAll());
+    }
+
     @PatchMapping("/password")
     public ApiResponse<Void> updateMemberPassword(@AuthenticationPrincipal User user,
                                                   @RequestBody MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
@@ -47,8 +54,4 @@ public class MemberController {
         return ApiResponse.ok();
     }
 
-    @GetMapping
-    public ApiResponse<List> retrieveAll() {
-        return ApiResponse.ok(memberService.retrieveAll());
-    }
 }
