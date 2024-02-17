@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Console;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -33,6 +36,15 @@ public class MemberService {
     public MemberResponse retrieveMember(String username) {
         return MemberResponse.from(findMemberById(convertId(username)));
     }
+
+
+    @Transactional(readOnly = true)
+    public List<MemberResponse> retrieveAll() {
+        return memberRepository.findAll().stream()
+                .map(MemberResponse::from)
+                .collect(Collectors.toList());
+    }
+
 
     public Member findMemberById(Long id) {
         return memberRepository.findById(id).get();
